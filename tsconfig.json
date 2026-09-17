@@ -14,10 +14,10 @@
     "paths": {
       "@/*": ["src/*"],
       "@modules/*": ["src/modules/*"],
-      "@routes/*": ["src/routes/*"],
-      "@provider/*": ["src/provider/*"],
       "@shared/*": ["src/shared/*"],
-      "@config/*": ["src/shared/config/*"]
+      "@config/*": ["src/config/*"],
+      "@bootstrap/*": ["src/bootstrap/*"],
+      "@infrastructure/*": ["src/infrastructure/*"]
     }
   },
   "include": ["src/**/*"]

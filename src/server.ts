@@ -1,18 +1,13 @@
-import app from "./app";
-import { connectDB } from "./shared/config/database";
-import { ENV, MESSAGE } from "./shared/helpers/constant";
-
+import app from "@/app";
+import { connectDB } from "@infrastructure/database/connection";
+import { ENV } from "@config/env";
+import { MESSAGE } from "@shared/helpers/constant";
 
 /**
- * @function startServer
- * @description Initializes the server and connects to the MongoDB database.
- * This function sets up the Express application, connects to the database,
- * and starts the server on the specified port.
- * It handles errors during the connection and server startup, logging appropriate messages.
- * @returns {Promise<void>} A promise that resolves when the server is started.
- * @throws {Error} If there is an error connecting to the database or starting the server.
+ * Connects to MongoDB and starts the HTTP server.
+ *
+ * @returns A promise that resolves after startup has been initiated.
  */
-
 const startServer = async () => {
   try {
     await connectDB();

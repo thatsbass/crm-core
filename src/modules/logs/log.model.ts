@@ -1,18 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-
-enum LogStatusEnum {
-  SUCCESS = "SUCCESS",
-  NOT_FOUND = "NOT_FOUND",
-  INACTIVE = "INACTIVE",
-  ERROR = "ERROR",
-}
-
-interface ILog extends Document {
-  phone: string;
-  status: LogStatusEnum;
-  message: string;
-  timestamp: Date;
-}
+import { ILog, LogStatusEnum } from "@modules/logs/log.types";
 
 const logSchema = new Schema<ILog>({
   phone: { type: String, required: true },
@@ -27,4 +14,4 @@ const logSchema = new Schema<ILog>({
 
 const LogModel = mongoose.model<ILog>("Logger", logSchema);
 
-export { ILog, LogModel, LogStatusEnum as LogStatus };
+export { LogModel, LogStatusEnum as LogStatus };

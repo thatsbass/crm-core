@@ -12,11 +12,13 @@ REST API for Orange customer management and log centralization, built with Node.
 - [API Endpoints](#api-endpoints)
 - [License](#license)
 
-## CORES STACK
+## CORE STACK
 
 - Node.js
 - Express
 - TypeScript
+- MongoDB / Mongoose
+- YAML service configuration
 - Docker & Docker Compose
 
 ## PREREQUISITES
@@ -29,35 +31,33 @@ REST API for Orange customer management and log centralization, built with Node.
 
 ```text
 src/
-├── app.ts                 # Express application configuration
-├── server.ts              # Server entry point
-├── modules/               # Functional modules
-│   ├── routes.ts         # Main router
-│   ├── clients/           # Client management module
-│   │   ├── client.controller.ts
-│   │   ├── client.service.ts
-│   │   ├── client.routes.ts
-│   │   └── client.model.ts
-│   └── logs/              # Log management module
-│       ├── log.controller.ts
-│       ├── log.service.ts
-│       ├── log.routes.ts
-│       └── logModel.ts
-└── shared/                # Shared resources
-    ├── common/            # Global middlewares and exceptions
-    │   ├── errorMiddleware.ts
-    │   └── exceptions/
-    ├── config/            # Application configurations
-    │   ├── database.ts
-    │   ├── seed.ts
-    │   └── services.yml
-    ├── helpers/           # Utility functions and validators
-    │   ├── constant.ts
-    │   ├── records.ts
-    │   └── validators.ts
-    └── types/             # Shared TypeScript types
-        └── type.ts
+├── app.ts                         # Express application entry point
+├── server.ts                      # Database and HTTP server startup
+├── bootstrap/
+│   ├── container.ts               # YAML-driven dependency container
+│   ├── composition.ts             # Application service composition root
+│   └── create-app.ts              # Express composition root
+├── config/
+│   ├── env.ts                     # Environment configuration
+│   └── services.yml               # Service declarations and dependencies
+├── modules/
+│   ├── clients/                   # Client domain
+│   └── logs/                      # Log domain
+├── infrastructure/
+│   ├── database/                  # MongoDB connection and seed
+│   └── http/                      # HTTP error middleware
+└── shared/
+    ├── errors/                    # Shared application errors
+    ├── helpers/                   # Validators and response helpers
+    └── types/                     # Shared TypeScript types
 ```
+
+The application uses a lightweight dependency container. Services are declared in
+`src/config/services.yml`. The generic container is implemented in
+`src/bootstrap/container.ts`, while `src/bootstrap/composition.ts` assembles the
+application controllers. Express setup remains isolated in
+`src/bootstrap/create-app.ts`, and business modules do not read the YAML file
+directly.
 
 ## INSTALLATION & SETUP
 
@@ -75,6 +75,11 @@ npm install
 3. Environment configuration:
 Create a `.env` file in the root directory based on `.env.example` and define the required variables.
 
+```env
+MONGO_URI=mongodb://localhost:27017/crm
+PORT=3000
+```
+
 ## USAGE
 
 ### Development
@@ -89,6 +94,9 @@ Build the TypeScript source files and start the production server:
 npm run build
 npm start
 ```
+
+The build copies `services.yml` to `dist/config` and rewrites TypeScript path
+aliases so the compiled application can run directly with Node.js.
 
 ### Docker
 Launch the complete infrastructure using Docker Compose:
@@ -112,6 +120,24 @@ The API is versioned and prefixed with `/v1/api`.
 ### Logs
 - `GET /v1/api/logs` - Retrieve all logs.
 - `GET /v1/api/logs/:phone` - Retrieve logs filtered by phone number.
+
+## SERVICE CONFIGURATION
+
+Services use logical names and reference dependencies with the `@serviceName`
+syntax:
+
+```yaml
+services:
+  clientController:
+    class: '../modules/clients/client.controller'
+    export: ClientController
+    arguments:
+      - '@clientService'
+```
+
+The container validates the YAML structure and reports missing services,
+unresolvable dependencies, missing classes, invalid exports, and circular
+dependencies explicitly.
 
 ## License
 

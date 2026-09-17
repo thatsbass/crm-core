@@ -1,6 +1,7 @@
 
-import { NotFoundError } from "../../shared/common/exceptions/notFoundError";
-import { ILog, LogModel } from "./logModel";
+import { NotFoundError } from "@shared/errors/not-found.error";
+import { ILog } from "@modules/logs/log.types";
+import { LogModel } from "@modules/logs/log.model";
 
 
 export class LoggerService {

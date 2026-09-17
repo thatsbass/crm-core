@@ -25,6 +25,13 @@ export class ServiceContainer {
     private readonly configDirectory: string,
   ) {}
 
+  /**
+   * Resolves a configured service and caches its instance for reuse.
+   *
+   * @param name - Logical service name declared in services.yml.
+   * @returns The resolved service instance.
+   * @throws If the service or one of its dependencies cannot be resolved.
+   */
   get<T>(name: string): T {
     if (this.instances.has(name)) {
       return this.instances.get(name) as T;
@@ -60,6 +67,13 @@ export class ServiceContainer {
     }
   }
 
+  /**
+   * Loads and validates the configured class export for a service.
+   *
+   * @param name - Logical service name used in error messages.
+   * @param definition - YAML definition for the service.
+   * @returns The constructible class exported by the module.
+   */
   private loadClass(name: string, definition: ServiceDefinition): Constructor {
     let moduleExports: Record<string, unknown>;
 
@@ -83,6 +97,12 @@ export class ServiceContainer {
   }
 }
 
+/**
+ * Creates a service container from a YAML configuration file.
+ *
+ * @param configPath - Absolute path to services.yml.
+ * @returns A configured service container.
+ */
 export function loadServiceContainer(configPath: string): ServiceContainer {
   let config: unknown;
 
@@ -126,6 +146,11 @@ function isServicesConfig(value: unknown): value is ServicesConfig {
   });
 }
 
+/**
+ * Returns the services configuration path for the current runtime.
+ *
+ * @returns Absolute path to services.yml.
+ */
 export function defaultServicesConfigPath(): string {
-  return path.resolve(__dirname, "../shared/config/services.yml");
+  return path.resolve(__dirname, "../config/services.yml");
 }

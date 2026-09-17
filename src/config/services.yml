@@ -1,0 +1,22 @@
+services:
+  clientController:
+    class: '../modules/clients/client.controller'
+    export: ClientController
+    arguments:
+      - '@clientService'
+
+  clientService:
+    class: '../modules/clients/client.service'
+    export: ClientService
+    arguments:
+      - '@loggerService'
+
+  loggerService:
+    class: '../modules/logs/log.service'
+    export: LoggerService
+
+  logController:
+    class: '../modules/logs/log.controller'
+    export: LogController
+    arguments:
+      - '@loggerService'
