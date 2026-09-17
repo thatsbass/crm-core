@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { ClientModel } from '../../modules/clients/clientModel';
+import { ClientModel } from '../../modules/clients/client.model';
 import { LogModel } from '../../modules/logs/logModel';
 
 

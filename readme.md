@@ -37,7 +37,7 @@ src/
 │   │   ├── client.controller.ts
 │   │   ├── client.service.ts
 │   │   ├── client.routes.ts
-│   │   └── clientModel.ts
+│   │   └── client.model.ts
 │   └── logs/              # Log management module
 │       ├── log.controller.ts
 │       ├── log.service.ts

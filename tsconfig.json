@@ -1,14 +1,24 @@
 {
   "compilerOptions": {
-    "target": "es6",                          
-    "module": "commonjs",                    
-    "lib": ["es6"],                     
+    "target": "es6",
+    "module": "commonjs",
+    "lib": ["es6"],
     "allowJs": true,
-    "outDir": "dist",                          
+    "outDir": "dist",
     "rootDir": "src",
-    "strict": true,         
+    "strict": true,
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true
-  }
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@modules/*": ["src/modules/*"],
+      "@routes/*": ["src/routes/*"],
+      "@provider/*": ["src/provider/*"],
+      "@shared/*": ["src/shared/*"],
+      "@config/*": ["src/shared/config/*"]
+    }
+  },
+  "include": ["src/**/*"]
 }

@@ -1,5 +1,6 @@
 # Fichiers de dépendances
 node_modules/
+dist/
 
 # Fichier d'environnement
 .env

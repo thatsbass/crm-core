@@ -10,6 +10,7 @@ export class ClientController {
    * Handles the request to find a client by phone number.
    * @param req - The request object containing the phone number.
    * @param res - The response object to send the result.
+   * @param next
    */
  async  findClientByPhone( req: Request, res: Response, next: NextFunction): Promise<void> {
     try {

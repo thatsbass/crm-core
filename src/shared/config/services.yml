@@ -1,25 +1,18 @@
 services:
-  # Controllers
   ClientController:
-    class: '../controllers/client.controller'
+    class: '../../modules/clients/client.controller'
     arguments:
       - '@ClientService'
 
-  # Services
   ClientService:
-    class: '../services/client.service'
+    class: '../../modules/clients/client.service'
     arguments:
-      - '@LogService'
-      - '@ClientModel'
+      - '@LoggerService'
 
-  LogService:
-    class: '../services/log.service'
+  LoggerService:
+    class: '../../modules/logs/log.service'
+
+  LogController:
+    class: '../../modules/logs/log.controller'
     arguments:
-      - '@LogModel'
-
-  # Models
-  ClientModel:
-    class: '../models/clientModel'
-
-  LogModel:
-    class: '../models/logModel'
+      - '@LoggerService'

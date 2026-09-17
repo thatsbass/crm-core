@@ -6,10 +6,10 @@ const ENV = {
 };
 
 const MESSAGE  = {
-  DB_CONNECTED: "✅ MongoDB connecté",
-  DB_ERROR: "❌ Erreur connexion MongoDB:",
-  SERVER_STARTED: `✅ Serveur démarré sur le port ${ENV.PORT}`,
-  SERVER_ERROR: "❌ Erreur serveur:",
+  DB_CONNECTED: "MongoDB connecté",
+  DB_ERROR: "Erreur connexion MongoDB:",
+  SERVER_STARTED: `Serveur démarré sur le port ${ENV.PORT}`,
+  SERVER_ERROR: "Erreur serveur:",
   INTERNAL_ERROR: "Erreur interne du serveur",
   INVALID_PHONE: "Le numéro de téléphone est invalide",
   CLIENT_FOUND: "Client trouvé avec succès",

@@ -1,12 +1,13 @@
 import { ClientController } from "../modules/clients/client.controller";
-import { ClientService } from "../modules/clients/client.service";
 import { LogController } from "../modules/logs/log.controller";
-import { LoggerService } from "../modules/logs/log.service";
+import {
+  defaultServicesConfigPath,
+  loadServiceContainer,
+} from "./service.container";
 
+const container = loadServiceContainer(defaultServicesConfigPath());
 
-const loggerService = new LoggerService();
-const clientService = new ClientService(loggerService);
-const clientController = new ClientController(clientService);
-const logController = new LogController(loggerService);
+const clientController = container.get<ClientController>("ClientController");
+const logController = container.get<LogController>("LogController");
 
 export { clientController, logController };

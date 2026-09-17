@@ -1,16 +1,9 @@
-// import { ClientModel, IClient } from "../models/clientModel";
-// import { NotFoundError } from "../common/exceptions/notFoundError";
-// import { InactiveClientError } from "../common/exceptions/inactiveClientError";
-// import { MESSAGE } from "../helpers/constant";
-// import { LogModel, LogStatus } from "../models/logModel";
-// import { LoggerService } from "./log.service";
-
 import { InactiveClientError } from "../../shared/common/exceptions/inactiveClientError";
 import { NotFoundError } from "../../shared/common/exceptions/notFoundError";
 import { MESSAGE } from "../../shared/helpers/constant";
 import { LoggerService } from "../logs/log.service";
 import { LogStatus } from "../logs/logModel";
-import { ClientModel, IClient } from "./clientModel";
+import { ClientModel, IClient } from "./client.model";
 
 export class ClientService {
   constructor (private readonly logService: LoggerService) {}
