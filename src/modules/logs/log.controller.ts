@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { LoggerService } from "./log.service";
+import { LoggerService } from "@modules/logs/log.service";
 
 export class LogController {
 

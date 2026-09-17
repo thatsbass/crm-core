@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from "express";
 
-import { defaultHandler, errorHandlers } from "../helpers/records";
-import { STATUS_CODE } from "../helpers/constant";
-import { LogModel, LogStatus } from "../../modules/logs/logModel";
+import { defaultHandler, errorHandlers } from "@shared/helpers/records";
+import { STATUS_CODE } from "@shared/helpers/constant";
+import { LogModel, LogStatus } from "@modules/logs/log.model";
 
 export const errorMiddleware = async (
   error: Error,

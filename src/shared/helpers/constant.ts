@@ -1,11 +1,6 @@
-import "dotenv/config";
+import { ENV } from "@config/env";
 
-const ENV = {
-  MONGO_URI: process.env.MONGO_URI || "mongodb://localhost:27017/mydatabase",
-  PORT: process.env.PORT || 3000,
-};
-
-const MESSAGE  = {
+const MESSAGE = {
   DB_CONNECTED: "MongoDB connecté",
   DB_ERROR: "Erreur connexion MongoDB:",
   SERVER_STARTED: `Serveur démarré sur le port ${ENV.PORT}`,
@@ -15,9 +10,8 @@ const MESSAGE  = {
   CLIENT_FOUND: "Client trouvé avec succès",
   CLIENT_NOT_FOUND: "Aucun client trouvé avec ce numéro de téléphone",
   CLIENT_INACTIVE: "Le client est inactif",
-  LOG_NOT_FOUND : "Aucun log trouvé avec ce numéro de téléphone"
+  LOG_NOT_FOUND: "Aucun log trouvé avec ce numéro de téléphone",
 };
-
 
 const STATUS_CODE = {
   NOT_FOUND: 404,
@@ -26,4 +20,4 @@ const STATUS_CODE = {
   INTERNAL_ERROR: 500,
 };
 
-export { ENV, MESSAGE, STATUS_CODE };
+export { MESSAGE, STATUS_CODE };

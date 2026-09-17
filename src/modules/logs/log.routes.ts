@@ -1,15 +1,17 @@
 import { Router } from "express";
-import { logController } from "../../provider/app.provider";
+import { LogController } from "@modules/logs/log.controller";
 
-const router = Router();
+/**
+ * Creates the log HTTP router.
+ *
+ * @param logController - Controller responsible for log requests.
+ * @returns The configured log router.
+ */
+export default function logRoutes(logController: LogController) {
+  const router = Router();
 
-router.get(
-  "/:phone",
-  logController.findLogByPhone.bind(logController)
-);
-router.get(
-  "/",
-  logController.getAllLogs.bind(logController)
-);
+  router.get("/:phone", logController.findLogByPhone.bind(logController));
+  router.get("/", logController.getAllLogs.bind(logController));
 
-export default router;
+  return router;
+}

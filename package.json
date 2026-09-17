@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "build": "tsc && cp src/shared/config/services.yml dist/shared/config/services.yml",
+    "build": "tsc && tsc-alias && cp src/config/services.yml dist/config/services.yml",
     "start": "node dist/server.js",
     "dev": "nodemon --watch src --exec \"ts-node -r tsconfig-paths/register src/server.ts\"",
-    "seed:clients": "ts-node src/config/seed.ts"
+    "seed:clients": "ts-node src/infrastructure/database/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +26,7 @@
     "@types/node": "^24.0.13",
     "nodemon": "^3.1.10",
     "ts-node": "^10.9.2",
+    "tsc-alias": "^1.9.5",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3"
   }

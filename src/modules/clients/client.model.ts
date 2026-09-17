@@ -1,14 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-
-interface IClient extends Document {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IClient } from "@modules/clients/client.types";
 
 const clientSchema: Schema = new Schema<IClient>({
   name: { type: String, required: true },
@@ -22,4 +13,4 @@ const clientSchema: Schema = new Schema<IClient>({
 
 const ClientModel = mongoose.model<IClient>("Client", clientSchema);
 
-export { IClient, ClientModel };
+export { ClientModel };

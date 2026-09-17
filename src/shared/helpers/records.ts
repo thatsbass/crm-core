@@ -1,5 +1,5 @@
 import { ZodError } from "zod";
-import { ErrorHandler } from "../types/type";
+import { ErrorHandler } from "@shared/types/error-handler.type";
 
 const errorHandlers: Record<string, ErrorHandler> = {
   NotFoundError: {
