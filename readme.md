@@ -1,128 +1,127 @@
-# Gest-Client API
+# CRM CORE
 
-Une API REST pour la gestion des clients Orange et des logs, développée avec Node.js, Express et TypeScript.
+REST API for Orange customer management and log centralization, built with Node.js, Express, and TypeScript.
 
-## 📋 Table des matières
+## Table of Contents
 
-- [Structure du projet](#structure-du-projet)
-- [Technologies utilisées](#technologies-utilisées)
-- [Prérequis](#prérequis)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Utilisation](#utilisation)
+- [Stack](#stack)
+- [Prerequisites](#prerequisites)
+- [Project Structure](#project-structure)
+- [Installation & Setup](#installation--setup)
+- [Usage](#usage)
 - [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
 
-## 🗂 Structure du projet
+## Stack
 
-```
+- Node.js
+- Express
+- TypeScript
+- Docker & Docker Compose
+
+## Prerequisites
+
+- Node.js (v18 or higher recommended)
+- Docker and Docker Compose
+- npm (or yarn)
+
+## Project Structure
+
+```text
 src/
-├── app.ts                 # Configuration de l'application Express
-├── server.ts              # Point d'entrée du serveur
-├── modules/              # Modules fonctionnels de l'application
-│   ├── routes.ts         # Configuration des routes principales
-│   ├── clients/         # Module de gestion des clients
+├── app.ts                 # Express application configuration
+├── server.ts              # Server entry point
+├── modules/               # Functional modules
+│   ├── routes.ts         # Main router
+│   ├── clients/           # Client management module
 │   │   ├── client.controller.ts
 │   │   ├── client.service.ts
 │   │   ├── client.routes.ts
 │   │   └── clientModel.ts
-│   └── logs/           # Module de gestion des logs
+│   └── logs/              # Log management module
 │       ├── log.controller.ts
 │       ├── log.service.ts
 │       ├── log.routes.ts
 │       └── logModel.ts
-└── shared/             # Ressources partagées
-    ├── common/         # Middlewares et exceptions communes
+└── shared/                # Shared resources
+    ├── common/            # Global middlewares and exceptions
     │   ├── errorMiddleware.ts
     │   └── exceptions/
-    ├── config/         # Configuration de l'application
+    ├── config/            # Application configurations
     │   ├── database.ts
     │   ├── seed.ts
     │   └── services.yml
-    ├── helpers/        # Fonctions utilitaires
+    ├── helpers/           # Utility functions and validators
     │   ├── constant.ts
     │   ├── records.ts
     │   └── validators.ts
-    └── types/          # Types TypeScript partagés
+    └── types/             # Shared TypeScript types
         └── type.ts
 ```
 
-## 🛠 Technologies utilisées
+## Installation & Setup
 
-- Node.js
-- Express.js
-- TypeScript
-- Docker
-- Base de données (configurée dans database.ts)
+1. Clone the repository:
+```bash
+git clone https://github.com
+cd gest-client-orange
+```
 
-## ⚙️ Prérequis
-
-- Node.js (version 14 ou supérieure)
-- Docker et Docker Compose
-- npm ou yarn
-
-## 🚀 Installation
-
-1. Cloner le repository
-\`\`\`bash
-git clone https://github.com/thatsbass/gest-client-orange.git
-cd gest-client
-\`\`\`
-
-2. Installer les dépendances
-\`\`\`bash
+2. Install dependencies:
+```bash
 npm install
-\`\`\`
+```
 
-3. Lancer l'application avec Docker
-\`\`\`bash
-docker-compose up -d
-\`\`\`
+3. Environment configuration:
+Create a `.env` file in the root directory based on `.env.example` and define the required variables.
 
-## ⚡ Configuration
+## Usage
 
-1. Créer un fichier \`.env\` à la racine du projet (basé sur \`.env.example\` si disponible)
-2. Configurer les variables d'environnement nécessaires
-
-## 📝 Utilisation
-
-### Développement
-
-\`\`\`bash
+### Development
+Start the application with hot-reload:
+```bash
 npm run dev
-\`\`\`
+```
 
 ### Production
-
-\`\`\`bash
+Build the TypeScript source files and start the production server:
+```bash
 npm run build
 npm start
-\`\`\`
+```
 
-### Seed de la base de données
+### Docker
+Launch the complete infrastructure using Docker Compose:
+```bash
+docker-compose up -d
+```
 
-\`\`\`bash
+### Database Seeding
+Populate the database with initial dummy data:
+```bash
 npm run seed:clients
-\`\`\`
+```
 
-## 🔗 API Endpoints
+## API Endpoints
+
+The API is versioned and prefixed with `/v1/api`.
 
 ### Clients
-
-- \`GET /v1/api/clients/:phone\` - Rechercher un client par numéro de téléphone
+- `GET /v1/api/clients/:phone` - Find a client by phone number.
 
 ### Logs
+- `GET /v1/api/logs` - Retrieve all logs.
+- `GET /v1/api/logs/:phone` - Retrieve logs filtered by phone number.
 
-- \`GET /v1/api/logs\` - Récupérer tous les logs
-- \`GET /v1/api/logs/:phone\` - Rechercher les logs par numéro de téléphone
+## Contributing
 
-## 🤝 Contribution
+1. Fork the project.
+2. Create a feature branch (`git checkout -b feature/amazing-feature`).
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`).
+4. Push to the branch (`git push origin feature/amazing-feature`).
+5. Open a Pull Request.
 
-1. Fork le projet
-2. Créer une branche pour votre fonctionnalité (\`git checkout -b feature/AmazingFeature\`)
-3. Commit vos changements (\`git commit -m 'Add some AmazingFeature'\`)
-4. Push vers la branche (\`git push origin feature/AmazingFeature\`)
-5. Ouvrir une Pull Request
+## License
 
-## 📄 Licence
-
-[MIT](LICENSE)
+This project is licensed under the [MIT](LICENSE) License.
