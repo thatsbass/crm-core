@@ -2,7 +2,7 @@
 
 REST API for Orange customer management and log centralization, built with Node.js, Express, and TypeScript.
 
-## Table of Contents
+## TABLE OF CONTENTS
 
 - [Stack](#stack)
 - [Prerequisites](#prerequisites)
@@ -10,23 +10,22 @@ REST API for Orange customer management and log centralization, built with Node.
 - [Installation & Setup](#installation--setup)
 - [Usage](#usage)
 - [API Endpoints](#api-endpoints)
-- [Contributing](#contributing)
 - [License](#license)
 
-## Stack
+## CORES STACK
 
 - Node.js
 - Express
 - TypeScript
 - Docker & Docker Compose
 
-## Prerequisites
+## PREREQUISITES
 
 - Node.js (v18 or higher recommended)
 - Docker and Docker Compose
 - npm (or yarn)
 
-## Project Structure
+## PROJECT STRUCTURE
 
 ```text
 src/
@@ -60,12 +59,12 @@ src/
         └── type.ts
 ```
 
-## Installation & Setup
+## INSTALLATION & SETUP
 
 1. Clone the repository:
 ```bash
-git clone https://github.com
-cd gest-client-orange
+git clone https://github.com/thatsbass/crm-core.git
+cd crm-core
 ```
 
 2. Install dependencies:
@@ -76,7 +75,7 @@ npm install
 3. Environment configuration:
 Create a `.env` file in the root directory based on `.env.example` and define the required variables.
 
-## Usage
+## USAGE
 
 ### Development
 Start the application with hot-reload:
@@ -103,7 +102,7 @@ Populate the database with initial dummy data:
 npm run seed:clients
 ```
 
-## API Endpoints
+## API ENDPOINTS
 
 The API is versioned and prefixed with `/v1/api`.
 
@@ -113,14 +112,6 @@ The API is versioned and prefixed with `/v1/api`.
 ### Logs
 - `GET /v1/api/logs` - Retrieve all logs.
 - `GET /v1/api/logs/:phone` - Retrieve logs filtered by phone number.
-
-## Contributing
-
-1. Fork the project.
-2. Create a feature branch (`git checkout -b feature/amazing-feature`).
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`).
-4. Push to the branch (`git push origin feature/amazing-feature`).
-5. Open a Pull Request.
 
 ## License
 
