@@ -17,6 +17,27 @@ const errorHandlers: Record<string, ErrorHandler> = {
       message: error.message,
     }),
   },
+  UnauthorizedError: {
+    status: HTTP_STATUS.UNAUTHORIZED,
+    handle: (error) => ({
+      status: "error",
+      message: error.message,
+    }),
+  },
+  ConflictError: {
+    status: HTTP_STATUS.CONFLICT,
+    handle: (error) => ({
+      status: "error",
+      message: error.message,
+    }),
+  },
+  ForbiddenError: {
+    status: HTTP_STATUS.FORBIDDEN,
+    handle: (error) => ({
+      status: "error",
+      message: error.message,
+    }),
+  },
   ZodError: {
     status: HTTP_STATUS.BAD_REQUEST,
     handle: (error) => ({

@@ -6,7 +6,8 @@ import { LogStatus } from "@modules/logs/log.model";
 import { ClientModel } from "@modules/clients/client.model";
 import { IClient } from "@modules/clients/client.types";
 import { ClientListQuery, ClientPayload } from "@modules/clients/client.types";
-import mongoose, { FilterQuery } from "mongoose";
+import { UserModel } from "@modules/users/user.model";
+import mongoose, { FilterQuery, Types } from "mongoose";
 
 export class ClientService {
   /**
@@ -23,7 +24,7 @@ export class ClientService {
    * @returns The persisted client.
    */
   async createClient(payload: ClientPayload): Promise<IClient> {
-    return ClientModel.create(payload);
+    return ClientModel.create({ ...payload, userId: new Types.ObjectId(payload.userId) });
   }
 
   /**
@@ -45,12 +46,18 @@ export class ClientService {
 
     if (query.search) {
       const search = new RegExp(query.search, "i");
-      filter.$or = [{ name: search }, { email: search }, { phone: search }];
+      const matchingUsers = await UserModel.find({
+        $or: [{ name: search }, { email: search }],
+      }).select("_id").exec();
+      filter.$or = [
+        { phone: search },
+        { userId: { $in: matchingUsers.map((user) => user._id) } },
+      ];
     }
 
     const skip = (query.page - 1) * query.limit;
     const [data, total] = await Promise.all([
-      ClientModel.find(filter)
+      ClientModel.find(filter).populate("userId", "name email role isActive")
         .sort({ [query.sortBy]: query.sortOrder })
         .skip(skip)
         .limit(query.limit)
@@ -77,7 +84,9 @@ export class ClientService {
    * @throws NotFoundError when no client matches the identifier.
    */
   async findClientById(id: string): Promise<IClient> {
-    const client = await ClientModel.findById(id).exec();
+    const client = await ClientModel.findById(id)
+      .populate("userId", "name email role isActive")
+      .exec();
     if (!client) {
       throw new NotFoundError("Client introuvable.");
     }

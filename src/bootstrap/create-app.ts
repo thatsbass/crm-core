@@ -1,6 +1,8 @@
 import express from "express";
-import { clientController, logController } from "@bootstrap/composition";
+import { authController, clientController, logController } from "@bootstrap/composition";
 import { errorMiddleware } from "@infrastructure/http/error.middleware";
+import { authenticate } from "@infrastructure/http/auth.middleware";
+import authRoutes from "@modules/auth/auth.routes";
 import clientRoutes from "@modules/clients/client.routes";
 import logRoutes from "@modules/logs/log.routes";
 
@@ -14,10 +16,10 @@ export function createApp() {
   const apiRouter = express.Router();
 
   app.use(express.json());
-  apiRouter.use("/clients", clientRoutes(clientController));
-  apiRouter.use("/logs", logRoutes(logController));
+  apiRouter.use("/auth", authRoutes(authController));
+  apiRouter.use("/clients", authenticate, clientRoutes(clientController));
+  apiRouter.use("/logs", authenticate, logRoutes(logController));
   app.use("/v1/api", apiRouter);
   app.use(errorMiddleware);
-
   return app;
 }
