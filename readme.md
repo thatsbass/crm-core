@@ -138,6 +138,19 @@ npm run seed:clients
 The seed resets the `users`, `clients` and `loggers` collections and
 synchronizes indexes to remove obsolete indexes from previous schemas.
 
+### Tests
+Run the unit and integration tests:
+
+```bash
+npm test
+```
+
+Run Vitest in watch mode during development:
+
+```bash
+npm run test:watch
+```
+
 ## API ENDPOINTS
 
 The API is versioned and prefixed with `/v1/api`.

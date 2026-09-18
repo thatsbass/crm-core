@@ -18,6 +18,8 @@ userSchema.set("toJSON", {
   },
 });
 
-const UserModel = mongoose.model<IUser>("User", userSchema);
+const UserModel = mongoose.models.User
+  ? mongoose.model<IUser>("User")
+  : mongoose.model<IUser>("User", userSchema);
 
 export { UserModel };
