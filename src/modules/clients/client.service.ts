@@ -1,6 +1,6 @@
 import { InactiveClientError } from "@shared/errors/inactive-client.error";
 import { NotFoundError } from "@shared/errors/not-found.error";
-import { MESSAGE } from "@shared/helpers/constant";
+import { CLIENT_MESSAGE } from "@modules/clients/client.constant";
 import { LoggerService } from "@modules/logs/log.service";
 import { LogStatus } from "@modules/logs/log.model";
 import { ClientModel } from "@modules/clients/client.model";
@@ -149,15 +149,15 @@ export class ClientService {
     const client = await ClientModel.findOne({ phone }).exec();
 
     if (!client) {
-      await this.logService.createLog({ message: MESSAGE.CLIENT_NOT_FOUND, phone, status: LogStatus.NOT_FOUND });
-      throw new NotFoundError(MESSAGE.CLIENT_NOT_FOUND);
+      await this.logService.createLog({ message: CLIENT_MESSAGE.NOT_FOUND, phone, status: LogStatus.NOT_FOUND });
+      throw new NotFoundError(CLIENT_MESSAGE.NOT_FOUND);
     }
     if (!client.isActive) {
-      await this.logService.createLog({ message: MESSAGE.CLIENT_INACTIVE, phone, status: LogStatus.INACTIVE });
-      throw new InactiveClientError(MESSAGE.CLIENT_INACTIVE);
+      await this.logService.createLog({ message: CLIENT_MESSAGE.INACTIVE, phone, status: LogStatus.INACTIVE });
+      throw new InactiveClientError(CLIENT_MESSAGE.INACTIVE);
     }
 
-    await this.logService.createLog({ message: MESSAGE.CLIENT_FOUND, phone, status: LogStatus.SUCCESS });
+    await this.logService.createLog({ message: CLIENT_MESSAGE.FOUND, phone, status: LogStatus.SUCCESS });
     return client;
   }
 }

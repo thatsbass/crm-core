@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 
 import { defaultHandler, errorHandlers } from "@shared/helpers/records";
-import { STATUS_CODE } from "@shared/helpers/constant";
+import { HTTP_STATUS } from "@shared/constants/http.constant";
 import { LogModel, LogStatus } from "@modules/logs/log.model";
 
 export const errorMiddleware = async (
@@ -15,7 +15,7 @@ export const errorMiddleware = async (
 
   const handler = errorHandlers[error.constructor.name] || defaultHandler;
 
-  if (handler.status === STATUS_CODE.INTERNAL_ERROR) {
+  if (handler.status === HTTP_STATUS.INTERNAL_SERVER_ERROR) {
     await LogModel.create({
       phone: req.params.phone ?? "N/A",
       message: handler.handle(error).message,

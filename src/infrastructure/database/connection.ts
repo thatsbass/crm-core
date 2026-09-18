@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { ENV } from "@config/env";
-import { MESSAGE } from "@shared/helpers/constant";
+import { SYSTEM_MESSAGE } from "@shared/constants/message.constant";
 
 /**
  * Opens the MongoDB connection using the configured environment variable.
@@ -11,9 +11,9 @@ export const connectDB = async () => {
   const mongoUri = ENV.MONGO_URI;
   try {
     await mongoose.connect(mongoUri);
-    console.log(MESSAGE.DB_CONNECTED);
+    console.log(SYSTEM_MESSAGE.DB_CONNECTED);
   } catch (error) {
-    console.error(MESSAGE.DB_ERROR, error);
+    console.error(SYSTEM_MESSAGE.DB_ERROR, error);
     process.exit(1);
   }
 };
