@@ -14,14 +14,17 @@
   "description": "",
   "dependencies": {
     "@types/js-yaml": "^4.0.9",
+    "bcryptjs": "^3.0.3",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "js-yaml": "^4.1.0",
+    "jsonwebtoken": "^9.0.3",
     "mongoose": "^8.16.3",
     "zod": "^4.0.5"
   },
   "devDependencies": {
     "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.0.13",
     "nodemon": "^3.1.10",

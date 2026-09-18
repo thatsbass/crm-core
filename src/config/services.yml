@@ -1,4 +1,14 @@
 services:
+  authController:
+    class: '../modules/auth/auth.controller'
+    export: AuthController
+    arguments:
+      - '@authService'
+
+  authService:
+    class: '../modules/auth/auth.service'
+    export: AuthService
+
   clientController:
     class: '../modules/clients/client.controller'
     export: ClientController

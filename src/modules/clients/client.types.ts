@@ -1,8 +1,7 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export interface IClient extends Document {
-  name: string;
-  email: string;
+  userId: Types.ObjectId;
   phone: string;
   address: string;
   isActive: boolean;
@@ -10,16 +9,17 @@ export interface IClient extends Document {
   updatedAt: Date;
 }
 
-export type ClientPayload = Omit<
-  IClient,
-  keyof Document | "isActive" | "createdAt" | "updatedAt"
->;
+export interface ClientPayload {
+  userId: string;
+  phone: string;
+  address: string;
+}
 
 export interface ClientListQuery {
   page: number;
   limit: number;
   search?: string;
   isActive?: boolean;
-  sortBy: "name" | "email" | "phone" | "createdAt" | "updatedAt";
+  sortBy: "phone" | "createdAt" | "updatedAt";
   sortOrder: 1 | -1;
 }

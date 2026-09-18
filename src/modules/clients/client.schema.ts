@@ -1,11 +1,8 @@
 import { z } from "zod";
 import { PAGINATION } from "@shared/constants/pagination.constant";
 
-const sortFields = ["name", "email", "phone", "createdAt", "updatedAt"] as const;
-
 const clientPayloadSchema = z.object({
-  name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères."),
-  email: z.string().trim().email("L'adresse email est invalide."),
+  userId: z.string().regex(/^[a-f\d]{24}$/i, "L'identifiant utilisateur est invalide."),
   phone: z
     .string()
     .trim()
@@ -15,7 +12,7 @@ const clientPayloadSchema = z.object({
   address: z.string().trim().min(2, "L'adresse est obligatoire."),
 });
 
-const clientUpdateSchema = clientPayloadSchema.partial().refine(
+const clientUpdateSchema = clientPayloadSchema.omit({ userId: true }).partial().refine(
   (payload) => Object.keys(payload).length > 0,
   "Au moins un champ doit être fourni pour modifier le client.",
 );
@@ -43,7 +40,7 @@ const clientListQuerySchema = z.object({
     .enum(["true", "false"])
     .transform((value) => value === "true")
     .optional(),
-  sortBy: z.enum(sortFields).default(PAGINATION.DEFAULT_SORT_BY),
+  sortBy: z.enum(["phone", "createdAt", "updatedAt"]).default("createdAt"),
   sortOrder: z
     .enum(["asc", "desc"])
     .default("asc")

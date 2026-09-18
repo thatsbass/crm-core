@@ -41,7 +41,9 @@ src/
 │   ├── env.ts                     # Environment configuration
 │   └── services.yml               # Service declarations and dependencies
 ├── modules/
-│   ├── clients/                   # Client domain
+│   ├── auth/                     # Authentication and users
+│   ├── users/                    # User identity, roles and credentials
+│   ├── clients/                  # Client domain
 │   └── logs/                      # Log domain
 ├── infrastructure/
 │   ├── database/                  # MongoDB connection and seed
@@ -78,6 +80,8 @@ Create a `.env` file in the root directory based on `.env.example` and define th
 ```env
 MONGO_URI=mongodb://localhost:27017/crm
 PORT=3000
+JWT_SECRET=replace-with-a-long-random-secret
+JWT_EXPIRES_IN=1h
 ```
 
 ## USAGE
@@ -114,8 +118,43 @@ npm run seed:clients
 
 The API is versioned and prefixed with `/v1/api`.
 
+### Authentication
+- `POST /v1/api/auth/register` - Register a client account.
+- `POST /v1/api/auth/login` - Authenticate a user and receive a JWT.
+
+Registration payload:
+
+```json
+{
+  "name": "Mariam Diongue",
+  "email": "mariam.dion@example.com",
+  "phone": "773612264",
+  "address": "Cité Gadaye",
+  "password": "MotDePasse123"
+}
+```
+
+New registrations receive the `CLIENT` role. The `AGENT` and `ADMIN` roles
+are intended for accounts provisioned by an authorized administrator.
+
+Client and log routes require the header:
+
+```text
+Authorization: Bearer <token>
+```
+
+Role permissions:
+
+- `ADMIN`: full access to client management and logs;
+- `AGENT`: read access to logs;
+- `CLIENT`: authentication only for now.
+
+The seed creates an administrator using `SEED_ADMIN_NAME`,
+`SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`. These values must be changed
+outside local development.
+
 ### Clients
-- `POST /v1/api/clients` - Create a client.
+- `POST /v1/api/clients` - Create a client profile for an existing user.
 - `GET /v1/api/clients` - List active clients with pagination, search, filters and sorting.
 - `GET /v1/api/clients/:identifier` - Find a client by MongoDB identifier or phone number.
 - `PATCH /v1/api/clients/:identifier` - Update a client by MongoDB identifier.
@@ -128,8 +167,18 @@ page=1
 limit=20
 search=mariam
 isActive=true
-sortBy=name|email|phone|createdAt|updatedAt
+sortBy=phone|createdAt|updatedAt
 sortOrder=asc|desc
+```
+
+Client profile creation payload:
+
+```json
+{
+  "userId": "68c...",
+  "phone": "773612264",
+  "address": "Cité Gadaye"
+}
 ```
 
 Deleted clients remain in the database with `isActive=false` and are excluded
