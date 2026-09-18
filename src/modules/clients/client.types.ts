@@ -9,3 +9,17 @@ export interface IClient extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type ClientPayload = Omit<
+  IClient,
+  keyof Document | "isActive" | "createdAt" | "updatedAt"
+>;
+
+export interface ClientListQuery {
+  page: number;
+  limit: number;
+  search?: string;
+  isActive?: boolean;
+  sortBy: "name" | "email" | "phone" | "createdAt" | "updatedAt";
+  sortOrder: 1 | -1;
+}

@@ -9,7 +9,7 @@ const clientSchema: Schema = new Schema<IClient>({
   isActive: { type: Boolean, required: true, default: true },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
-});
+}, { timestamps: true });
 
 const ClientModel = mongoose.model<IClient>("Client", clientSchema);
 
