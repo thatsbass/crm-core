@@ -115,7 +115,25 @@ npm run seed:clients
 The API is versioned and prefixed with `/v1/api`.
 
 ### Clients
-- `GET /v1/api/clients/:phone` - Find a client by phone number.
+- `POST /v1/api/clients` - Create a client.
+- `GET /v1/api/clients` - List active clients with pagination, search, filters and sorting.
+- `GET /v1/api/clients/:identifier` - Find a client by MongoDB identifier or phone number.
+- `PATCH /v1/api/clients/:identifier` - Update a client by MongoDB identifier.
+- `DELETE /v1/api/clients/:identifier` - Soft-delete a client by MongoDB identifier.
+
+Supported list query parameters:
+
+```text
+page=1
+limit=20
+search=mariam
+isActive=true
+sortBy=name|email|phone|createdAt|updatedAt
+sortOrder=asc|desc
+```
+
+Deleted clients remain in the database with `isActive=false` and are excluded
+from the default list.
 
 ### Logs
 - `GET /v1/api/logs` - Retrieve all logs.
