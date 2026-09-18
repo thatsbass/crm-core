@@ -92,6 +92,14 @@ Start the application with hot-reload:
 npm run dev
 ```
 
+Swagger UI is available at:
+
+```text
+http://localhost:3000/docs
+```
+
+The raw OpenAPI document is available at `/docs/json`.
+
 ### Production
 Build the TypeScript source files and start the production server:
 ```bash

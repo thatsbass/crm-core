@@ -5,6 +5,7 @@ import { authenticate } from "@infrastructure/http/auth.middleware";
 import authRoutes from "@modules/auth/auth.routes";
 import clientRoutes from "@modules/clients/client.routes";
 import logRoutes from "@modules/logs/log.routes";
+import swaggerRoutes from "@infrastructure/http/swagger.routes";
 
 /**
  * Builds the Express application and registers its middleware and routes.
@@ -16,6 +17,7 @@ export function createApp() {
   const apiRouter = express.Router();
 
   app.use(express.json());
+  app.use("/docs", swaggerRoutes());
   apiRouter.use("/auth", authRoutes(authController));
   apiRouter.use("/clients", authenticate, clientRoutes(clientController));
   apiRouter.use("/logs", authenticate, logRoutes(logController));
