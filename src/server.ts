@@ -1,7 +1,7 @@
 import app from "@/app";
 import { connectDB } from "@infrastructure/database/connection";
 import { ENV } from "@config/env";
-import { MESSAGE } from "@shared/helpers/constant";
+import { SYSTEM_MESSAGE } from "@shared/constants/message.constant";
 
 /**
  * Connects to MongoDB and starts the HTTP server.
@@ -12,10 +12,10 @@ const startServer = async () => {
   try {
     await connectDB();
     app.listen(ENV.PORT, () => {
-      console.log(MESSAGE.SERVER_STARTED);
+      console.log(`${SYSTEM_MESSAGE.SERVER_STARTED} sur le port ${ENV.PORT}`);
     });
   } catch (error) {
-    console.error(MESSAGE.SERVER_ERROR, error);
+    console.error(SYSTEM_MESSAGE.SERVER_ERROR, error);
   }
 };
 

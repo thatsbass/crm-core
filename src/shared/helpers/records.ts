@@ -1,23 +1,24 @@
 import { ZodError } from "zod";
 import { ErrorHandler } from "@shared/types/error-handler.type";
+import { HTTP_STATUS } from "@shared/constants/http.constant";
 
 const errorHandlers: Record<string, ErrorHandler> = {
   NotFoundError: {
-    status: 404,
+    status: HTTP_STATUS.NOT_FOUND,
     handle: (error) => ({
       status: "error",
       message: error.message,
     }),
   },
   InactiveClientError: {
-    status: 403,
+    status: HTTP_STATUS.FORBIDDEN,
     handle: (error) => ({
       status: "error",
       message: error.message,
     }),
   },
   ZodError: {
-    status: 400,
+    status: HTTP_STATUS.BAD_REQUEST,
     handle: (error) => ({
       status: "error",
       message: "Validation error",
@@ -30,7 +31,7 @@ const errorHandlers: Record<string, ErrorHandler> = {
 };
 
 const defaultHandler: ErrorHandler = {
-  status: 500,
+  status: HTTP_STATUS.INTERNAL_SERVER_ERROR,
   handle: () => ({
     status: "error",
     message: "Internal Server Error",

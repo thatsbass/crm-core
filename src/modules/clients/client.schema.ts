@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { PAGINATION } from "@shared/constants/pagination.constant";
 
 const sortFields = ["name", "email", "phone", "createdAt", "updatedAt"] as const;
 
@@ -24,18 +25,29 @@ const clientIdSchema = z.object({
 });
 
 const clientListQuerySchema = z.object({
-  page: z.coerce.number().int().min(1).default(1),
-  limit: z.coerce.number().int().min(1).max(100).default(20),
+  page: z
+    .coerce
+    .number()
+    .int()
+    .min(PAGINATION.DEFAULT_PAGE)
+    .default(PAGINATION.DEFAULT_PAGE),
+  limit: z
+    .coerce
+    .number()
+    .int()
+    .min(1)
+    .max(PAGINATION.MAX_LIMIT)
+    .default(PAGINATION.DEFAULT_LIMIT),
   search: z.string().trim().optional(),
   isActive: z
     .enum(["true", "false"])
     .transform((value) => value === "true")
     .optional(),
-  sortBy: z.enum(sortFields).default("createdAt"),
+  sortBy: z.enum(sortFields).default(PAGINATION.DEFAULT_SORT_BY),
   sortOrder: z
     .enum(["asc", "desc"])
     .default("asc")
-    .transform((value) => (value === "asc" ? 1 : -1)),
+    .transform((value) => (value === "asc" ? PAGINATION.DEFAULT_SORT_ORDER : -1)),
 });
 
 export {
