@@ -34,9 +34,7 @@ export class AuthService {
     }
 
     const hashedPassword = await bcrypt.hash(password, 12);
-    const user = await UserModel.create({
-      name, email, password: hashedPassword, role: UserRole.CLIENT,
-    });
+    const user = await UserModel.create({name, email, password: hashedPassword, role: UserRole.CLIENT,});
     try {
       await ClientModel.create({ userId: user.id, phone, address });
     } catch (error) {

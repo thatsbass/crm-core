@@ -13,6 +13,7 @@ export default function logRoutes(logController: LogController) {
   const router = Router();
 
   router.use(authorizeRoles(UserRole.ADMIN, UserRole.AGENT));
+  router.get("/client/:clientId", logController.getLogsByClientId.bind(logController));
   router.get("/:phone", logController.findLogByPhone.bind(logController));
   router.get("/", logController.getAllLogs.bind(logController));
 

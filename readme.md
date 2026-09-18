@@ -187,6 +187,10 @@ from the default list.
 ### Logs
 - `GET /v1/api/logs` - Retrieve all logs.
 - `GET /v1/api/logs/:phone` - Retrieve logs filtered by phone number.
+- `GET /v1/api/logs/client/:clientId` - Retrieve a client's activity history.
+
+Logs include the related client and, when the action is authenticated, the user
+who performed the action.
 
 ## SERVICE CONFIGURATION
 

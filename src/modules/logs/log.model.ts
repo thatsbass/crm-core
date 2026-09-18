@@ -2,7 +2,9 @@ import mongoose, { Document, Schema } from "mongoose";
 import { ILog, LogStatusEnum } from "@modules/logs/log.types";
 
 const logSchema = new Schema<ILog>({
-  phone: { type: String, required: true },
+  clientId: { type: Schema.Types.ObjectId, ref: "Client" },
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
+  phone: { type: String },
   status: {
     type: String,
     required: true,
