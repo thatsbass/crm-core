@@ -1,6 +1,7 @@
 # CRM CORE
 
-REST API for Orange customer management and log centralization, built with Node.js, Express, and TypeScript.
+Personal CRM REST API for user authentication, client profile management and
+activity log centralization, built with Node.js, Express, TypeScript and MongoDB.
 
 ## TABLE OF CONTENTS
 
@@ -18,6 +19,9 @@ REST API for Orange customer management and log centralization, built with Node.
 - Express
 - TypeScript
 - MongoDB / Mongoose
+- JWT authentication with bcrypt password hashing
+- Zod request validation
+- Swagger/OpenAPI documentation
 - YAML service configuration
 - Docker & Docker Compose
 
@@ -39,6 +43,7 @@ src/
 │   └── create-app.ts              # Express composition root
 ├── config/
 │   ├── env.ts                     # Environment configuration
+│   ├── swagger.ts                 # OpenAPI specification
 │   └── services.yml               # Service declarations and dependencies
 ├── modules/
 │   ├── auth/                     # Authentication and users
@@ -49,6 +54,7 @@ src/
 │   ├── database/                  # MongoDB connection and seed
 │   └── http/                      # HTTP error middleware
 └── shared/
+    ├── constants/                 # Shared constants
     ├── errors/                    # Shared application errors
     ├── helpers/                   # Validators and response helpers
     └── types/                     # Shared TypeScript types
@@ -82,7 +88,13 @@ MONGO_URI=mongodb://localhost:27017/crm
 PORT=3000
 JWT_SECRET=replace-with-a-long-random-secret
 JWT_EXPIRES_IN=1h
+SEED_ADMIN_NAME=CRM Administrator
+SEED_ADMIN_EMAIL=admin@crm.local
+SEED_ADMIN_PASSWORD=ChangeMeAdmin123!
+SEED_CLIENT_PASSWORD=ChangeMe123!
 ```
+
+Never use the example JWT secret or seed passwords outside local development.
 
 ## USAGE
 
@@ -117,10 +129,14 @@ docker-compose up -d
 ```
 
 ### Database Seeding
-Populate the database with initial dummy data:
+Populate the database with an administrator, client users, client profiles and
+empty activity logs:
 ```bash
 npm run seed:clients
 ```
+
+The seed resets the `users`, `clients` and `loggers` collections and
+synchronizes indexes to remove obsolete indexes from previous schemas.
 
 ## API ENDPOINTS
 
@@ -151,22 +167,27 @@ Client and log routes require the header:
 Authorization: Bearer <token>
 ```
 
+Use the token returned by `/auth/login` as `Authorization: Bearer <jwt-token>`.
+
 Role permissions:
+
+The header format is `Bearer` followed by the JWT returned by the login
+endpoint.
 
 - `ADMIN`: full access to client management and logs;
 - `AGENT`: read access to logs;
 - `CLIENT`: authentication only for now.
 
 The seed creates an administrator using `SEED_ADMIN_NAME`,
-`SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`. These values must be changed
-outside local development.
+`SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`. Client seed accounts use
+`SEED_CLIENT_PASSWORD`.
 
 ### Clients
-- `POST /v1/api/clients` - Create a client profile for an existing user.
-- `GET /v1/api/clients` - List active clients with pagination, search, filters and sorting.
-- `GET /v1/api/clients/:identifier` - Find a client by MongoDB identifier or phone number.
-- `PATCH /v1/api/clients/:identifier` - Update a client by MongoDB identifier.
-- `DELETE /v1/api/clients/:identifier` - Soft-delete a client by MongoDB identifier.
+- `POST /v1/api/clients` - Create a client profile for an existing user (`ADMIN`).
+- `GET /v1/api/clients` - List active clients with pagination, search, filters and sorting (`ADMIN`).
+- `GET /v1/api/clients/:identifier` - Find a client by ID or phone (`ADMIN`).
+- `PATCH /v1/api/clients/:identifier` - Update a client profile (`ADMIN`).
+- `DELETE /v1/api/clients/:identifier` - Soft-delete a client profile (`ADMIN`).
 
 Supported list query parameters:
 
@@ -193,12 +214,35 @@ Deleted clients remain in the database with `isActive=false` and are excluded
 from the default list.
 
 ### Logs
-- `GET /v1/api/logs` - Retrieve all logs.
-- `GET /v1/api/logs/:phone` - Retrieve logs filtered by phone number.
-- `GET /v1/api/logs/client/:clientId` - Retrieve a client's activity history.
+- `GET /v1/api/logs` - Retrieve all logs (`ADMIN`, `AGENT`).
+- `GET /v1/api/logs/:phone` - Retrieve the latest log for a phone number (`ADMIN`, `AGENT`).
+- `GET /v1/api/logs/client/:clientId` - Retrieve a client's activity history (`ADMIN`, `AGENT`).
 
 Logs include the related client and, when the action is authenticated, the user
 who performed the action.
+
+## DATA MODEL
+
+Authentication data and CRM data are separated:
+
+```text
+User
+├── name
+├── email
+├── password
+├── role: CLIENT | AGENT | ADMIN
+└── isActive
+
+Client
+├── userId
+├── phone
+├── address
+└── isActive
+```
+
+A client account is represented by a `User` with the `CLIENT` role and an
+associated `Client` profile. Administrators and agents do not need a client
+profile.
 
 ## SERVICE CONFIGURATION
 
