@@ -12,18 +12,9 @@ export default function clientRoutes(clientController: ClientController) {
 
   router.post("/", clientController.createClient.bind(clientController));
   router.get("/", clientController.listClients.bind(clientController));
-  router.get(
-    "/:identifier",
-    clientController.getClient.bind(clientController),
-  );
-  router.patch(
-    "/:identifier",
-    clientController.updateClient.bind(clientController),
-  );
-  router.delete(
-    "/:identifier",
-    clientController.deleteClient.bind(clientController),
-  );
+  router.get("/:identifier", clientController.getClient.bind(clientController),);
+  router.patch("/:identifier", clientController.updateClient.bind(clientController),);
+  router.delete("/:identifier", clientController.deleteClient.bind(clientController),);
 
   return router;
 }
