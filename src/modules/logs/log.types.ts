@@ -1,4 +1,4 @@
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 export enum LogStatusEnum {
   SUCCESS = "SUCCESS",
@@ -8,7 +8,9 @@ export enum LogStatusEnum {
 }
 
 export interface ILog extends Document {
-  phone: string;
+  clientId?: Types.ObjectId;
+  userId?: Types.ObjectId;
+  phone?: string;
   status: LogStatusEnum;
   message: string;
   timestamp: Date;

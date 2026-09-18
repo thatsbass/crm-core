@@ -25,7 +25,7 @@ export class ClientController {
   async createClient(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const payload = clientPayloadSchema.parse(req.body);
-      const client = await this.clientService.createClient(payload);
+      const client = await this.clientService.createClient(payload, req.user?.id);
       res.status(201).json(client);
     } catch (error) {
       next(error);
@@ -59,7 +59,7 @@ export class ClientController {
   async getClient(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { identifier } = req.params;
-      const client = await this.clientService.findClientByIdentifier(identifier);
+      const client = await this.clientService.findClientByIdentifier(identifier, req.user?.id);
       res.status(200).json(client);
     } catch (error) {
       next(error);
@@ -77,7 +77,7 @@ export class ClientController {
     try {
       const { id } = clientIdSchema.parse({ id: req.params.identifier });
       const payload = clientUpdateSchema.parse(req.body);
-      const client = await this.clientService.updateClient(id, payload);
+      const client = await this.clientService.updateClient(id, payload, req.user?.id);
       res.status(200).json(client);
     } catch (error) {
       next(error);
@@ -94,7 +94,7 @@ export class ClientController {
   async deleteClient(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { id } = clientIdSchema.parse({ id: req.params.identifier });
-      await this.clientService.deleteClient(id);
+      await this.clientService.deleteClient(id, req.user?.id);
       res.status(204).send();
     } catch (error) {
       next(error);

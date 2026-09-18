@@ -54,9 +54,6 @@ async function seedDatabase(): Promise<void> {
 /**
  * Synchronizes MongoDB indexes with the current User and Client schemas.
  *
- * This removes obsolete indexes left by previous schema versions, such as
- * the former unique Client.email index.
- *
  * @returns A promise that resolves when both models are synchronized.
  */
 async function synchronizeIndexes(): Promise<void> {

@@ -92,6 +92,14 @@ Start the application with hot-reload:
 npm run dev
 ```
 
+Swagger UI is available at:
+
+```text
+http://localhost:3000/docs
+```
+
+The raw OpenAPI document is available at `/docs/json`.
+
 ### Production
 Build the TypeScript source files and start the production server:
 ```bash
@@ -187,6 +195,10 @@ from the default list.
 ### Logs
 - `GET /v1/api/logs` - Retrieve all logs.
 - `GET /v1/api/logs/:phone` - Retrieve logs filtered by phone number.
+- `GET /v1/api/logs/client/:clientId` - Retrieve a client's activity history.
+
+Logs include the related client and, when the action is authenticated, the user
+who performed the action.
 
 ## SERVICE CONFIGURATION
 
