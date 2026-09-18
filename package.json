@@ -6,7 +6,7 @@
     "build": "tsc && tsc-alias && cp src/config/services.yml dist/config/services.yml",
     "start": "node dist/server.js",
     "dev": "nodemon --watch src --exec \"ts-node -r tsconfig-paths/register src/server.ts\"",
-    "seed:clients": "ts-node src/infrastructure/database/seed.ts"
+    "seed:clients": "ts-node -r tsconfig-paths/register src/infrastructure/database/seed.ts"
   },
   "keywords": [],
   "author": "",
