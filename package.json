@@ -6,9 +6,11 @@
     "build": "tsc && tsc-alias && cp src/config/services.yml dist/config/services.yml",
     "start": "node dist/server.js",
     "dev": "nodemon --watch src --exec \"ts-node -r tsconfig-paths/register src/server.ts\"",
-    "seed:clients": "ts-node -r tsconfig-paths/register src/infrastructure/database/seed.ts"
-    ,"test": "vitest run"
-    ,"test:watch": "vitest"
+    "seed:clients": "ts-node -r tsconfig-paths/register src/infrastructure/database/seed.ts",
+    "create:admin": "ts-node -r tsconfig-paths/register src/infrastructure/database/create-admin.ts",
+    "create:admin:compiled": "node dist/infrastructure/database/create-admin.js",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "keywords": [],
   "author": "",
