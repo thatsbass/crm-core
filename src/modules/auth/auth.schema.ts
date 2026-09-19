@@ -13,4 +13,11 @@ const loginSchema = z.object({
   password: z.string().min(1, "Le mot de passe est obligatoire."),
 });
 
-export { loginSchema, registerSchema };
+const setupAdminSchema = z.object({
+  accessCode: z.string().min(1, "Le code d'accès est obligatoire."),
+  name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères."),
+  email: z.string().trim().email("L'adresse email est invalide").toLowerCase(),
+  password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères."),
+});
+
+export { loginSchema, registerSchema, setupAdminSchema };

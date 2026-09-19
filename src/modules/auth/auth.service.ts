@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import { createHash, timingSafeEqual } from "node:crypto";
 import jwt, { SignOptions } from "jsonwebtoken";
 import { ENV } from "@config/env";
 import { ConflictError } from "@shared/errors/conflict.error";
@@ -62,6 +63,50 @@ export class AuthService {
   }
 
   /**
+   * Creates the first administrator with the configured bootstrap code.
+   *
+   * @param accessCode - Secret code supplied by the deployer.
+   * @param name - Administrator display name.
+   * @param email - Administrator email address.
+   * @param password - Plain text administrator password.
+   * @returns The created administrator and a signed JWT.
+   * @throws UnauthorizedError when bootstrap is disabled or the code is invalid.
+   * @throws ConflictError when an administrator already exists.
+   */
+  async setupAdmin(
+    accessCode: string,
+    name: string,
+    email: string,
+    password: string,
+  ): Promise<AuthResponse> {
+    if (!ENV.ADMIN_SETUP_ENABLED || !ENV.ADMIN_SETUP_KEY) {
+      throw new UnauthorizedError(AUTH_MESSAGE.ADMIN_SETUP_DISABLED);
+    }
+
+    if (!this.matchesSetupKey(accessCode)) {
+      throw new UnauthorizedError(AUTH_MESSAGE.ADMIN_SETUP_INVALID_KEY);
+    }
+
+    if (await UserModel.exists({ role: UserRole.ADMIN })) {
+      throw new ConflictError(AUTH_MESSAGE.ADMIN_ALREADY_EXISTS);
+    }
+
+    if (await UserModel.exists({ email })) {
+      throw new ConflictError(AUTH_MESSAGE.EMAIL_ALREADY_EXISTS);
+    }
+
+    const user = await UserModel.create({
+      name,
+      email,
+      password: await bcrypt.hash(password, 12),
+      role: UserRole.ADMIN,
+      isActive: true,
+    });
+
+    return this.createAuthResponse(user);
+  }
+
+  /**
    * Creates a public authentication response.
    *
    * @param user - Persisted user.
@@ -85,5 +130,17 @@ export class AuthService {
    */
   private toPublicUser(user: IUser): PublicUser {
     return { id: user.id, name: user.name, email: user.email, role: user.role };
+  }
+
+  /**
+   * Compares bootstrap codes using fixed-length hashes and a timing-safe check.
+   *
+   * @param accessCode - Code received from the request.
+   * @returns Whether the code matches the configured secret.
+   */
+  private matchesSetupKey(accessCode: string): boolean {
+    const received = createHash("sha256").update(accessCode).digest();
+    const expected = createHash("sha256").update(ENV.ADMIN_SETUP_KEY).digest();
+    return timingSafeEqual(received, expected);
   }
 }
