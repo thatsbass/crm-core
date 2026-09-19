@@ -10,4 +10,5 @@ export const AUTH_MESSAGE = {
   ADMIN_SETUP_DISABLED: "La création initiale de l'administrateur est désactivée.",
   ADMIN_SETUP_INVALID_KEY: "Code d'accès administrateur invalide.",
   ADMIN_ALREADY_EXISTS: "Un administrateur existe déjà.",
+  ADMIN_CREATED: "Administrateur créé avec succès.",
 } as const;

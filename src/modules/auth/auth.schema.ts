@@ -20,4 +20,10 @@ const setupAdminSchema = z.object({
   password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères."),
 });
 
-export { loginSchema, registerSchema, setupAdminSchema };
+const createAdminSchema = z.object({
+  name: z.string().trim().min(2, "Le nom doit contenir au moins 2 caractères."),
+  email: z.string().trim().email("L'adresse email est invalide").toLowerCase(),
+  password: z.string().min(8, "Le mot de passe doit contenir au moins 8 caractères."),
+});
+
+export { createAdminSchema, loginSchema, registerSchema, setupAdminSchema };
