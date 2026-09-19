@@ -11,6 +11,8 @@ const clientSchema: Schema = new Schema<IClient>(
   { timestamps: true },
 );
 
-const ClientModel = mongoose.model<IClient>("Client", clientSchema);
+const ClientModel = mongoose.models.Client
+  ? mongoose.model<IClient>("Client")
+  : mongoose.model<IClient>("Client", clientSchema);
 
 export { ClientModel };

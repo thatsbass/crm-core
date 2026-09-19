@@ -7,6 +7,8 @@
     "start": "node dist/server.js",
     "dev": "nodemon --watch src --exec \"ts-node -r tsconfig-paths/register src/server.ts\"",
     "seed:clients": "ts-node -r tsconfig-paths/register src/infrastructure/database/seed.ts"
+    ,"test": "vitest run"
+    ,"test:watch": "vitest"
   },
   "keywords": [],
   "author": "",
@@ -29,12 +31,16 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^24.0.13",
+    "@types/supertest": "^7.2.1",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.10",
+    "supertest": "^7.2.2",
     "ts-node": "^10.9.2",
     "tsc-alias": "^1.9.5",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^5.0.1"
   }
 }

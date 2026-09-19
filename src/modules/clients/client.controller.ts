@@ -6,6 +6,7 @@ import {
   clientUpdateSchema,
 } from "@modules/clients/client.schema";
 import { ClientService } from "@modules/clients/client.service";
+import type {} from "@shared/types/express";
 
 export class ClientController {
   /**

@@ -9,9 +9,9 @@ import { swaggerSpec } from "@config/swagger";
  */
 export default function swaggerRoutes() {
   const router = Router();
-  router.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   router.get("/json", (_req, res) => {
     res.json(swaggerSpec);
   });
+  router.use("/", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
   return router;
 }

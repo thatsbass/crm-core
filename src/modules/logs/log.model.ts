@@ -14,6 +14,8 @@ const logSchema = new Schema<ILog>({
   timestamp: { type: Date, default: Date.now },
 });
 
-const LogModel = mongoose.model<ILog>("Logger", logSchema);
+const LogModel = mongoose.models.Logger
+  ? mongoose.model<ILog>("Logger")
+  : mongoose.model<ILog>("Logger", logSchema);
 
 export { LogModel, LogStatusEnum as LogStatus };
