@@ -10,7 +10,7 @@ activity log centralization, built with Node.js, Express, TypeScript and MongoDB
 - [Project Structure](#project-structure)
 - [Installation & Setup](#installation--setup)
 - [Usage](#usage)
-- [DevOps and Deployment](#devops-and-deployment)
+- [Deployment](#deployment)
 - [API Endpoints](#api-endpoints)
 - [License](#license)
 
@@ -116,7 +116,7 @@ The raw OpenAPI document is available at `/docs/json`.
 See [DEVOPS.md](DEVOPS.md) for the CI/CD, Docker, MongoDB Atlas and Render
 configuration guide.
 
-## DEVOPS AND DEPLOYMENT
+## DEPLOYMENT
 
 The project uses GitHub Actions to run `npm ci`, `npm run build` and `npm test`
 on pushes and pull requests. The production image is built with Docker and is
@@ -147,6 +147,19 @@ npm run seed:clients
 
 The seed resets the `users`, `clients` and `loggers` collections and
 synchronizes indexes to remove obsolete indexes from previous schemas.
+
+For production, do not run the destructive seed. Provision only the admin
+account with:
+
+```bash
+npm run create:admin
+```
+
+After a production build, use:
+
+```bash
+npm run create:admin:compiled
+```
 
 ### Tests
 Run the unit and integration tests:
