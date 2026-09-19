@@ -5,9 +5,10 @@ import { UserModel } from "@modules/users/user.model";
 import { UserRole } from "@modules/users/user.types";
 
 /**
- * Creates or updates the configured production administrator.
+ * Creates the configured production administrator when it does not exist.
  *
- * This command is idempotent and never deletes users, clients or logs.
+ * This command is idempotent and never updates an existing password or
+ * deletes users, clients or logs.
  *
  * @throws If the database connection or administrator provisioning fails.
  */
@@ -22,12 +23,12 @@ async function provisionAdmin(): Promise<void> {
     }).exec();
 
     if (existingAdmin) {
-      existingAdmin.name = ENV.SEED_ADMIN_NAME;
-      existingAdmin.password = password;
-      existingAdmin.role = UserRole.ADMIN;
-      existingAdmin.isActive = true;
-      await existingAdmin.save();
-      console.log(`Administrateur mis à jour: ${ENV.SEED_ADMIN_EMAIL}`);
+      if (existingAdmin.role !== UserRole.ADMIN || !existingAdmin.isActive) {
+        existingAdmin.role = UserRole.ADMIN;
+        existingAdmin.isActive = true;
+        await existingAdmin.save();
+      }
+      console.log(`Administrateur déjà présent: ${ENV.SEED_ADMIN_EMAIL}`);
       return;
     }
 
