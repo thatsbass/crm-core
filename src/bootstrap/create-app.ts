@@ -17,6 +17,9 @@ export function createApp() {
   const apiRouter = express.Router();
 
   app.use(express.json());
+  app.get("/health", (_req, res) => {
+    res.status(200).json({ status: "ok" });
+  });
   app.use("/docs", swaggerRoutes());
   apiRouter.use("/auth", authRoutes(authController));
   apiRouter.use("/clients", authenticate, clientRoutes(clientController));
