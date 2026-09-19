@@ -113,9 +113,6 @@ http://localhost:3000/docs
 
 The raw OpenAPI document is available at `/docs/json`.
 
-See [DEVOPS.md](DEVOPS.md) for the CI/CD, Docker, MongoDB Atlas and Render
-configuration guide.
-
 ## DEPLOYMENT
 
 The project uses GitHub Actions to run `npm ci`, `npm run build` and `npm test`
