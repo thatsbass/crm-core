@@ -178,6 +178,7 @@ The API is versioned and prefixed with `/v1/api`.
 ### Authentication
 - `POST /v1/api/auth/register` - Register a client account.
 - `POST /v1/api/auth/login` - Authenticate a user and receive a JWT.
+- `POST /v1/api/auth/setup-admin` - Create the first administrator with the bootstrap code.
 
 Registration payload:
 
@@ -193,6 +194,23 @@ Registration payload:
 
 New registrations receive the `CLIENT` role. The `AGENT` and `ADMIN` roles
 are intended for accounts provisioned by an authorized administrator.
+
+To create the first administrator, configure `ADMIN_SETUP_ENABLED=true` and
+`ADMIN_SETUP_KEY` in the deployment environment, then call:
+
+```bash
+curl -X POST https://YOUR-SERVICE.onrender.com/v1/api/auth/setup-admin \
+  -H "Content-Type: application/json" \
+  -d '{
+    "accessCode": "YOUR_ADMIN_SETUP_KEY",
+    "name": "CRM Administrator",
+    "email": "admin@example.com",
+    "password": "A-strong-admin-password"
+  }'
+```
+
+The endpoint is refused once an `ADMIN` already exists. After the first
+successful creation, set `ADMIN_SETUP_ENABLED=false` in Render.
 
 Client and log routes require the header:
 

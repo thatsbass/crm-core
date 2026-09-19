@@ -9,6 +9,8 @@ const ENV = {
   SEED_ADMIN_EMAIL: process.env.SEED_ADMIN_EMAIL || "admin@crm.local",
   SEED_ADMIN_PASSWORD: process.env.SEED_ADMIN_PASSWORD || "ChangeMeAdmin123!",
   SEED_CLIENT_PASSWORD: process.env.SEED_CLIENT_PASSWORD || "ChangeMe123!",
+  ADMIN_SETUP_ENABLED: process.env.ADMIN_SETUP_ENABLED === "true",
+  ADMIN_SETUP_KEY: process.env.ADMIN_SETUP_KEY || "",
 };
 
 export { ENV };

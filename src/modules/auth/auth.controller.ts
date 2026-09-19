@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { loginSchema, registerSchema } from "@modules/auth/auth.schema";
+import { loginSchema, registerSchema, setupAdminSchema } from "@modules/auth/auth.schema";
 import { AuthService } from "@modules/auth/auth.service";
 
 export class AuthController {
@@ -45,6 +45,28 @@ export class AuthController {
       const payload = loginSchema.parse(req.body);
       const result = await this.authService.login(payload.email, payload.password);
       res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Creates the first administrator through the protected bootstrap flow.
+   *
+   * @param req - HTTP request containing the access code and admin data.
+   * @param res - HTTP response containing the administrator and token.
+   * @param next - Express error handler callback.
+   */
+  async setupAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const payload = setupAdminSchema.parse(req.body);
+      const result = await this.authService.setupAdmin(
+        payload.accessCode,
+        payload.name,
+        payload.email,
+        payload.password,
+      );
+      res.status(201).json(result);
     } catch (error) {
       next(error);
     }

@@ -41,6 +41,38 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
         },
       },
     },
+    "/auth/setup-admin": {
+        post: {
+          tags: ["Authentication"],
+          summary: "Create the first administrator",
+          description: "Available only when enabled and when no administrator exists.",
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  required: ["accessCode", "name", "email", "password"],
+                  properties: {
+                    accessCode: { type: "string", format: "password" },
+                    name: { type: "string", minLength: 2 },
+                    email: { type: "string", format: "email" },
+                    password: { type: "string", format: "password", minLength: 8 },
+                  },
+                },
+              },
+            },
+          },
+          responses: {
+            "201": {
+              description: "Administrator created",
+              content: { "application/json": { schema: { $ref: "#/components/schemas/AuthResponse" } } },
+            },
+            "401": { description: "Bootstrap disabled or invalid access code" },
+            "409": { description: "An administrator already exists" },
+          },
+        },
+      },
     "/clients": {
       post: {
         tags: ["Clients"],

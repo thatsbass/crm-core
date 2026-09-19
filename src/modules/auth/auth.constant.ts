@@ -7,4 +7,7 @@ export const AUTH_MESSAGE = {
   ACCESS_DENIED: "Vous n'avez pas les droits nécessaires.",
   REGISTERED: "Utilisateur créé avec succès.",
   LOGGED_IN: "Connexion réussie.",
+  ADMIN_SETUP_DISABLED: "La création initiale de l'administrateur est désactivée.",
+  ADMIN_SETUP_INVALID_KEY: "Code d'accès administrateur invalide.",
+  ADMIN_ALREADY_EXISTS: "Un administrateur existe déjà.",
 } as const;
