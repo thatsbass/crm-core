@@ -73,7 +73,39 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
           },
         },
       },
-    "/clients": {
+      "/users/admins": {
+        post: {
+          tags: ["Users"],
+          summary: "Create an additional administrator",
+          description: "Requires an authenticated administrator account.",
+          security: [{ bearerAuth: [] }],
+          requestBody: {
+            required: true,
+            content: {
+              "application/json": {
+                schema: { $ref: "#/components/schemas/CreateAdminPayload" },
+              },
+            },
+          },
+          responses: {
+            "201": {
+              description: "Administrator created",
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                    properties: { user: { $ref: "#/components/schemas/PublicUser" } },
+                  },
+                },
+              },
+            },
+            "401": { description: "Authentication required" },
+            "403": { description: "Only administrators can create administrators" },
+            "409": { description: "Email already exists" },
+          },
+        },
+      },
+      "/clients": {
       post: {
         tags: ["Clients"],
         summary: "Create a client profile",
@@ -206,6 +238,25 @@ const swaggerDefinition: swaggerJSDoc.SwaggerDefinition = {
             },
           },
           token: { type: "string" },
+        },
+      },
+      CreateAdminPayload: {
+        type: "object",
+        required: ["name", "email", "password"],
+        properties: {
+          name: { type: "string", minLength: 2 },
+          email: { type: "string", format: "email" },
+          password: { type: "string", format: "password", minLength: 8 },
+        },
+      },
+      PublicUser: {
+        type: "object",
+        required: ["id", "name", "email", "role"],
+        properties: {
+          id: { type: "string" },
+          name: { type: "string" },
+          email: { type: "string", format: "email" },
+          role: { type: "string", enum: ["CLIENT", "AGENT", "ADMIN"] },
         },
       },
     },

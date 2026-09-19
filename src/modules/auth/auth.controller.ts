@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { loginSchema, registerSchema, setupAdminSchema } from "@modules/auth/auth.schema";
+import {
+  createAdminSchema,
+  loginSchema,
+  registerSchema,
+  setupAdminSchema,
+} from "@modules/auth/auth.schema";
 import { AuthService } from "@modules/auth/auth.service";
 
 export class AuthController {
@@ -67,6 +72,23 @@ export class AuthController {
         payload.password,
       );
       res.status(201).json(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * Creates an additional administrator from an authenticated admin account.
+   *
+   * @param req - HTTP request containing administrator data.
+   * @param res - HTTP response containing the created administrator.
+   * @param next - Express error handler callback.
+   */
+  async createAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const payload = createAdminSchema.parse(req.body);
+      const user = await this.authService.createAdmin(payload.name, payload.email, payload.password);
+      res.status(201).json({ user });
     } catch (error) {
       next(error);
     }

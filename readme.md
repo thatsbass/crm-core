@@ -212,6 +212,22 @@ curl -X POST https://YOUR-SERVICE.onrender.com/v1/api/auth/setup-admin \
 The endpoint is refused once an `ADMIN` already exists. After the first
 successful creation, set `ADMIN_SETUP_ENABLED=false` in Render.
 
+An existing administrator can create additional administrators with its JWT:
+
+```bash
+curl -X POST https://YOUR-SERVICE.onrender.com/v1/api/users/admins \
+  -H "Authorization: Bearer ADMIN_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Second Administrator",
+    "email": "admin2@example.com",
+    "password": "AnotherStrongPassword123!"
+  }'
+```
+
+Only users with the `ADMIN` role can use this route. It never creates a
+client profile and ignores any `role` field supplied by the caller.
+
 Client and log routes require the header:
 
 ```text

@@ -107,6 +107,31 @@ export class AuthService {
   }
 
   /**
+   * Creates an administrator from an authenticated administrator account.
+   *
+   * @param name - Administrator display name.
+   * @param email - Administrator email address.
+   * @param password - Plain text administrator password.
+   * @returns The created public administrator.
+   * @throws ConflictError when the email is already registered.
+   */
+  async createAdmin(name: string, email: string, password: string): Promise<PublicUser> {
+    if (await UserModel.exists({ email })) {
+      throw new ConflictError(AUTH_MESSAGE.EMAIL_ALREADY_EXISTS);
+    }
+
+    const user = await UserModel.create({
+      name,
+      email,
+      password: await bcrypt.hash(password, 12),
+      role: UserRole.ADMIN,
+      isActive: true,
+    });
+
+    return this.toPublicUser(user);
+  }
+
+  /**
    * Creates a public authentication response.
    *
    * @param user - Persisted user.
